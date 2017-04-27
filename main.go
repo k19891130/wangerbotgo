@@ -60,11 +60,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 					}
 				} else if strings.Contains(message.Text, "button") {
-					leftBtn := linebot.NewMessageTemplateAction("left", "left clicked")
-					rightBtn := linebot.NewMessageTemplateAction("right", "right clicked")
-					template := linebot.NewConfirmTemplate("Hello World", leftBtn, rightBtn)
+					leftBtn := linebot.NewMessageTemplateAction("我是男生", "配對中")
+					rightBtn := linebot.NewMessageTemplateAction("我是女生", "配對中")
+					template := linebot.NewConfirmTemplate("隨機聊天", leftBtn, rightBtn)
 
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("Sorry :(, please update your app.", template)).Do(); err != nil {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("開始隨機聊天。", template)).Do(); err != nil {
 					log.Print(err)
 					}
 				} else if strings.Contains(message.Text, "**") {
