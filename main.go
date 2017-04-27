@@ -157,6 +157,16 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err := bot.PushMessage(girlMapping[event.Source.UserID], linebot.NewTextMessage(message.Text)).Do(); err != nil {
 					log.Print(err)
 					}
+				} else if girlMapping[event.Source.UserID] == "wait" {
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尚未配對成功，請稍候。")).Do(); err != nil {
+						log.Print(err)
+					}
+				} else if boyMapping[event.Source.UserID] == "wait" {
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尚未配對成功，請稍候。")).Do(); err != nil {
+						log.Print(err)
+					}
 				}
 				
 			}
