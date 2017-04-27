@@ -159,9 +159,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						if _, err := bot.PushMessage(girlMapping[event.Source.UserID], linebot.NewTextMessage("對方已離開，重新尋找對象中。")).Do(); err != nil {
 							log.Print(err)
 						}
-						boyMapping[girlMapping[event.Source.UserID]] = "wait"
 						var boyId = girlMapping[event.Source.UserID]
-						delete(girlMapping, event.Source.UserID)
+						boyMapping[boyId] = "wait"
+						girlMapping[event.Source.UserID] = ""
 
 						for girlId := range girlMapping {
 					    
@@ -177,6 +177,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 								break
 						    }
 						}
+						delete(girlMapping, event.Source.UserID)
 
 					}
 
@@ -185,9 +186,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						if _, err := bot.PushMessage(boyMapping[event.Source.UserID], linebot.NewTextMessage("對方已離開，重新尋找對象中。")).Do(); err != nil {
 							log.Print(err)
 						}
-						girlMapping[boyMapping[event.Source.UserID]] = "wait"
 						var girlId = boyMapping[event.Source.UserID]
-						delete(boyMapping, event.Source.UserID)
+						girlMapping[girlId] = "wait"
+						boyMapping[event.Source.UserID] = ""
 
 						for boyId := range boyMapping {
 					    
@@ -203,6 +204,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 								break
 						    }
 						}
+						delete(boyMapping, event.Source.UserID)
 					}
 					
 				} else if message.Text == "*尋找下一位聊天對象中..." {
