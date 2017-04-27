@@ -48,13 +48,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
+			leftBtn := linebot.NewMessageTemplateAction("left", "left clicked")
+			rightBtn := linebot.NewMessageTemplateAction("right", "right clicked")
+			template := linebot.NewConfirmTemplate("Hello World", leftBtn, rightBtn)
+			messgage := linebot.NewTemplateMessage("Sorry :(, please update your app.", template)
 			case *linebot.TextMessage:
 				if strings.Contains(message.Text, "#") {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(event.Source.UserID + " : " + message.Text+" 裡面有#")).Do(); err != nil {
 					log.Print(err)
 					}
-				} else if strings.Contains(message.Text, "*") {
-					if _, err := bot.PushMessage(event.Source.UserID, "push").Do(); err != nil {
+				} else if strings.Contains(message.Text, "button") {
+					if _, err = bot.ReplyMessage(event.ReplyToken, messgage).Do(); err != nil {
 					log.Print(err)
 					}
 				}
