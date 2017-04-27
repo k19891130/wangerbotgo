@@ -62,8 +62,13 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					leftBtn := linebot.NewMessageTemplateAction("left", "left clicked")
 					rightBtn := linebot.NewMessageTemplateAction("right", "right clicked")
 					template := linebot.NewConfirmTemplate("Hello World", leftBtn, rightBtn)
-					
+
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("Sorry :(, please update your app.", template)).Do(); err != nil {
+					log.Print(err)
+					}
+				} else if strings.Contains(message.Text, "私訊我") {
+
+					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
 					log.Print(err)
 					}
 				}
