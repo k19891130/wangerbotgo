@@ -33,6 +33,7 @@ func main() {
 	http.ListenAndServe(addr, nil)
 }
 
+
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
 
@@ -66,27 +67,13 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("Sorry :(, please update your app.", template)).Do(); err != nil {
 					log.Print(err)
 					}
-				} else if strings.Contains(message.Text, "私訊我") {
+				} else if strings.Contains(message.Text, "**") {
 
-					if _, err := bot.PushMessage(message.ID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
+					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
 					log.Print(err)
 					}
-				}
-			case "profile":
-				if event.Source.UserID != "" {
-					profile, err := bot.GetProfile(event.Source.UserID).Do()
-					if err != nil {
-						return bot.replyText(replyToken, err.Error())
-					}
-					if _, err := bot.ReplyMessage(
-						event.ReplyToken,
-						linebot.NewTextMessage("Display name: "+profile.DisplayName),
-						linebot.NewTextMessage("Status message: "+profile.StatusMessage),
-					).Do(); err != nil {
-						return err
-					}
-				} else {
-					return bot.replyText(replyToken, "Bot can't use profile API without user ID")
+				} else if strings.Contains(message.Text, "profile") {
+
 				}
 				
 			}
