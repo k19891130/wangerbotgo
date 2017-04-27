@@ -17,6 +17,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
@@ -88,7 +89,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if message.Text == "狀態" {
 
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("目前聊天室中有 : \n" + len(boyMapping) +" 個男生\n" + len(girlMapping) +" 個女生")).Do(); err != nil {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("目前聊天室中有 : \n" + strconv.Itoa(len(boyMapping)) +" 個男生\n" + strconv.Itoa(len(girlMapping)) +" 個女生")).Do(); err != nil {
 						log.Print(err)
 					}
 
