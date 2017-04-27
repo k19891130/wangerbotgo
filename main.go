@@ -73,13 +73,13 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 			case "profile":
-				if source.UserID != "" {
-					profile, err := app.bot.GetProfile(source.UserID).Do()
+				if event.Source.UserID != "" {
+					profile, err := bot.GetProfile(event.Source.UserID).Do()
 					if err != nil {
 						return app.replyText(replyToken, err.Error())
 					}
-					if _, err := app.bot.ReplyMessage(
-						replyToken,
+					if _, err := bot.ReplyMessage(
+						event.ReplyToken,
 						linebot.NewTextMessage("Display name: "+profile.DisplayName),
 						linebot.NewTextMessage("Status message: "+profile.StatusMessage),
 					).Do(); err != nil {
