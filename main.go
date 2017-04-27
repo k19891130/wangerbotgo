@@ -94,23 +94,23 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 
 					if boyMapping[event.Source.UserID] == "wait" {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你的狀態為 : \n尋找配對中")).Do(); err != nil {
+						if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("你的狀態為 : \n尋找配對中")).Do(); err != nil {
 							log.Print(err)
 						}
 					} else if boyMapping[event.Source.UserID] != "" && len(boyMapping[event.Source.UserID]) > 10 {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你的狀態為 : \n已配對聊天(只是對方不理你)")).Do(); err != nil {
+						if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("你的狀態為 : \n已配對聊天(只是對方不理你)")).Do(); err != nil {
 							log.Print(err)
 						}
 					} else if girlMapping[event.Source.UserID] == "wait" {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你的狀態為 : \n尋找配對中")).Do(); err != nil {
+						if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("你的狀態為 : \n尋找配對中")).Do(); err != nil {
 							log.Print(err)
 						}
 					} else if girlMapping[event.Source.UserID] != "" && len(girlMapping[event.Source.UserID]) > 10 {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你的狀態為 : \n已配對聊天(只是對方不理你)")).Do(); err != nil {
+						if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("你的狀態為 : \n已配對聊天(只是對方不理你)")).Do(); err != nil {
 							log.Print(err)
 						}
 					} else {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你的狀態為 : \n尚未開啟隨機聊天功能，請輸入\"開始聊天\"來加入聊天序列。")).Do(); err != nil {
+						if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("你的狀態為 : \n尚未開啟隨機聊天功能，請輸入\"開始聊天\"來加入聊天序列。")).Do(); err != nil {
 							log.Print(err)
 						}
 					}
