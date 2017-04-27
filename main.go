@@ -73,7 +73,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if message.Text == "-我是男生，開始尋找配對中..." {
 					
-					boyMapping[event.Source.UserID] := ""
+					boyMapping[event.Source.UserID] = ""
 
 					for girlId := range girlMapping {
 					    
@@ -82,15 +82,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					    	boyMapping[event.Source.UserID] = girlId
 					    }
 					}
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("開始隨機聊天。", template)).Do(); err != nil {
-					log.Print(err)
-					}
+
 				} else if message.Text == "-我是女生，開始尋找配對中..." {
 					
-
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("開始隨機聊天。", template)).Do(); err != nil {
-					log.Print(err)
-					}
 				} else if strings.Contains(message.Text, "**") {
 
 					if _, err := bot.PushMessage("U19cf2d03ac94f9ecc9c3ec3664b80f6d", linebot.NewTextMessage("私訊你" + event.Source.UserID)).Do(); err != nil {
