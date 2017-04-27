@@ -69,7 +69,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if strings.Contains(message.Text, "**") {
 
-					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你" + event.Source.UserID)).Do(); err != nil {
+					if _, err := bot.PushMessage("U19cf2d03ac94f9ecc9c3ec3664b80f6d", linebot.NewTextMessage("私訊你" + event.Source.UserID)).Do(); err != nil {
 					log.Print(err)
 					}
 				}
