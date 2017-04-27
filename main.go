@@ -69,11 +69,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if strings.Contains(message.Text, "**") {
 
-					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
+					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你" + event.Source.UserID)).Do(); err != nil {
 					log.Print(err)
 					}
-				} else if strings.Contains(message.Text, "profile") {
-					 _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("hello")).Do(); err != nil
 				}
 				
 			}
