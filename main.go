@@ -177,7 +177,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 								break
 						    }
 						}
-						delete(girlMapping, event.Source.UserID)
 
 					}
 
@@ -204,8 +203,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 								break
 						    }
 						}
-						delete(boyMapping, event.Source.UserID)
 					}
+					delete(girlMapping, event.Source.UserID)
+					delete(boyMapping, event.Source.UserID)
 					
 				} else if message.Text == "*尋找下一位聊天對象中..." {
 
