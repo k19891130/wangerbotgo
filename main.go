@@ -73,7 +73,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 					}
 				} else if strings.Contains(message.Text, "profile") {
-
+					 _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("hello")).Do(); err != nil
 				}
 				
 			}
