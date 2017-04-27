@@ -68,7 +68,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if strings.Contains(message.Text, "私訊我") {
 
-					if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
+					if _, err := bot.PushMessage(message.ID, linebot.NewTextMessage("私訊你")).Do(); err != nil {
 					log.Print(err)
 					}
 				}
