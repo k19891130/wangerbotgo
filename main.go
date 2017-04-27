@@ -76,7 +76,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				if event.Source.UserID != "" {
 					profile, err := bot.GetProfile(event.Source.UserID).Do()
 					if err != nil {
-						return app.replyText(replyToken, err.Error())
+						return bot.replyText(replyToken, err.Error())
 					}
 					if _, err := bot.ReplyMessage(
 						event.ReplyToken,
@@ -86,7 +86,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						return err
 					}
 				} else {
-					return app.replyText(replyToken, "Bot can't use profile API without user ID")
+					return bot.replyText(replyToken, "Bot can't use profile API without user ID")
 				}
 				
 			}
