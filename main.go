@@ -150,12 +150,12 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					
 				} else if boyMapping[event.Source.UserID] != "" && len(boyMapping[event.Source.UserID]) > 10 {
 
-					if _, err := bot.PushMessage(boyMapping[event.Source.UserID], linebot.NewTextMessage(message.Text).Do(); err != nil {
+					if _, err := bot.PushMessage(boyMapping[event.Source.UserID], linebot.NewTextMessage(message.Text)).Do(); err != nil {
 					log.Print(err)
 					}
 				} else if girlMapping[event.Source.UserID] != "" && len(girlMapping[event.Source.UserID]) > 10 {
 
-					if _, err := bot.PushMessage(girlMapping[event.Source.UserID], linebot.NewTextMessage(message.Text).Do(); err != nil {
+					if _, err := bot.PushMessage(girlMapping[event.Source.UserID], linebot.NewTextMessage(message.Text)).Do(); err != nil {
 					log.Print(err)
 					}
 				}
