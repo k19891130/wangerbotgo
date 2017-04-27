@@ -72,6 +72,22 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 					}
 				}
+			case "profile":
+				if source.UserID != "" {
+					profile, err := app.bot.GetProfile(source.UserID).Do()
+					if err != nil {
+						return app.replyText(replyToken, err.Error())
+					}
+					if _, err := app.bot.ReplyMessage(
+						replyToken,
+						linebot.NewTextMessage("Display name: "+profile.DisplayName),
+						linebot.NewTextMessage("Status message: "+profile.StatusMessage),
+					).Do(); err != nil {
+						return err
+					}
+				} else {
+					return app.replyText(replyToken, "Bot can't use profile API without user ID")
+				}
 				
 			}
 		}
