@@ -57,7 +57,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			
 			case *linebot.TextMessage:
 
-				if message.Text == "聊天設定" {
+				if message.Text == "選單" {
 					leftBtn := linebot.NewMessageTemplateAction("停止聊天", "*已停止隨機聊天功能。")
 					rightBtn := linebot.NewMessageTemplateAction("下一位", "*尋找下一位聊天對象中...")
 					template := linebot.NewConfirmTemplate("聊天設定", leftBtn, rightBtn)
@@ -65,12 +65,20 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("聊天設定", template)).Do(); err != nil {
 					log.Print(err)
 					}
-				} else if message.Text == "隨機聊天" {
+				} else if message.Text == "開始聊天" {
 					leftBtn := linebot.NewMessageTemplateAction("我是男生", "*我是男生，開始尋找配對中...")
 					rightBtn := linebot.NewMessageTemplateAction("我是女生", "*我是女生，開始尋找配對中...")
-					template := linebot.NewConfirmTemplate("隨機聊天", leftBtn, rightBtn)
+					template := linebot.NewConfirmTemplate("請選擇", leftBtn, rightBtn)
 
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("開始隨機聊天。", template)).Do(); err != nil {
+					log.Print(err)
+					}
+				} else if message.Text == "狀態" {
+					leftBtn := linebot.NewMessageTemplateAction("我是男生", "*我是男生，我要查詢我目前在聊天室的狀態...")
+					rightBtn := linebot.NewMessageTemplateAction("我是女生", "*我是女生，我要查詢我目前在聊天室的狀態...")
+					template := linebot.NewConfirmTemplate("請選擇", leftBtn, rightBtn)
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("狀態查詢", template)).Do(); err != nil {
 					log.Print(err)
 					}
 				} else if message.Text == "*我是男生，開始尋找配對中..." {
@@ -109,6 +117,38 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 							}
 							break
 					    }
+					}
+					
+				} else if message.Text == "*我是男生，我要查詢我目前在聊天室的狀態..." {
+
+					if boyMapping[event.Source.UserID] == "wait" {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尋找配對中")).Do(); err != nil {
+							log.Print(err)
+						}
+					} else if boyMapping[event.Source.UserID] == "" {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("目前已停止聊天功能")).Do(); err != nil {
+							log.Print(err)
+						}
+					} else if boyMapping[event.Source.UserID] != "" && len(boyMapping[event.Source.UserID]) > 10 {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("已配對聊天(只是對方不理你)")).Do(); err != nil {
+							log.Print(err)
+						}
+					}
+					
+				} else if message.Text == "*我是女生，我要查詢我目前在聊天室的狀態..." {
+
+					if girlMapping[event.Source.UserID] == "wait" {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尋找配對中")).Do(); err != nil {
+							log.Print(err)
+						}
+					} else if girlMapping[event.Source.UserID] == "" {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("目前已停止聊天功能")).Do(); err != nil {
+							log.Print(err)
+						}
+					} else if girlMapping[event.Source.UserID] != "" && len(girlMapping[event.Source.UserID]) > 10 {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("已配對聊天(只是對方不理你)")).Do(); err != nil {
+							log.Print(err)
+						}
 					}
 					
 				} else if message.Text == "*已停止隨機聊天功能。" {
