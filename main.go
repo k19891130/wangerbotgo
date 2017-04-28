@@ -74,7 +74,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 					}
 				} else if message.Text == "Time" {
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(makeTimestampMilli())).Do(); err != nil {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(strconv.Itoa(makeTimestampMilli()))).Do(); err != nil {
 						log.Print(err)
 					}
 				} else if message.Text == "#31#Profit" {
