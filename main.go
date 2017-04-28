@@ -65,6 +65,26 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("聊天設定", template)).Do(); err != nil {
 					log.Print(err)
 					}
+				} else if message.Text == "#31#Profit" {
+
+					for girlId := range girlMapping {
+						res, err := bot.GetUserProfile(girlId).Do();
+						if err != nil {
+						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 女\n" + "名字 : " + res.Displayname + "\n照片 : " + res.PicutureURL + "\nID : " + res.userId + "\n個人狀態 : " + res.statusMessage)).Do(); err != nil {
+							log.Print(err)
+							}
+						}
+					}
+
+					for boyId := range boyMapping {
+						res, err := bot.GetUserProfile(boyId).Do();
+						if err != nil {
+						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 男\n" + "名字 : " + res.Displayname + "\n照片 : " + res.PicutureURL + "\nID : " + res.userId + "\n個人狀態 : " + res.statusMessage)).Do(); err != nil {
+							log.Print(err)
+							}
+						}
+					}
+
 				} else if message.Text == "開始聊天" {
 
 					if boyMapping[event.Source.UserID] != "" {
