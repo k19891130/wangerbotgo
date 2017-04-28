@@ -362,11 +362,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				}
-				
-			}
-		} else {
-			if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("*抱歉，目前只開放純文字聊天。")).Do(); err != nil {
-				log.Print(err)
+			
+			default :
+				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("*抱歉，目前只開放純文字聊天。")).Do(); err != nil {
+					log.Print(err)
+				}
 			}
 		}
 	}
