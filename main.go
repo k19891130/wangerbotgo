@@ -37,13 +37,6 @@ func main() {
 	http.ListenAndServe(addr, nil)
 }
 
-type KitchenSink struct {
-	bot         *linebot.Client
-	appBaseURL  string
-	downloadDir string
-}
-
-
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
 
