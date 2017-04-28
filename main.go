@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 	"os"
 	"strconv"
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -35,6 +36,13 @@ func main() {
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
+}
+
+func unixMilli(t time.Time) int64 {
+        return t.Round(time.Millisecond).UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+}
+func makeTimestampMilli() int64 {
+        return unixMilli(time.Now())
 }
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,6 +72,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("聊天設定", template)).Do(); err != nil {
 					log.Print(err)
+					}
+				} else if message.Text == "Time" {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(makeTimestampMilli())).Do(); err != nil {
+						log.Print(err)
 					}
 				} else if message.Text == "#31#Profit" {
 
