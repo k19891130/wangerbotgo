@@ -73,10 +73,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("聊天設定", template)).Do(); err != nil {
 					log.Print(err)
 					}
-				} else if message.Text == "Time" {
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(strconv.FormatInt(makeTimestampMilli(), 10))).Do(); err != nil {
-						log.Print(err)
-					}
 				} else if message.Text == "#31#Profit" {
 
 					for girlId := range girlMapping {
@@ -92,7 +88,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 							log.Print(err)
 						}
 					}
-
 				} else if message.Text == "開始聊天" {
 
 					if boyMapping[event.Source.UserID] != "" {
@@ -161,17 +156,16 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if girlMapping[girlId] == "wait" {
 						    	girlMapping[girlId] = event.Source.UserID
 						    	boyMapping[event.Source.UserID] = girlId
-						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
 						    }
 						}
 					}
-
 				} else if message.Text == "*我是女生，開始尋找配對中..." {
 
 					if boyMapping[event.Source.UserID] != "" {
@@ -192,10 +186,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if boyMapping[boyId] == "wait" {
 						    	boyMapping[boyId] = event.Source.UserID
 						    	girlMapping[event.Source.UserID] = boyId
-						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -218,10 +212,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if girlMapping[girlId] == "wait" {
 						    	girlMapping[girlId] = boyId
 						    	boyMapping[boyId] = girlId
-						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -244,10 +238,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if boyMapping[boyId] == "wait" {
 						    	boyMapping[boyId] = girlId
 						    	girlMapping[girlId] = boyId
-						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -256,7 +250,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					delete(girlMapping, event.Source.UserID)
 					delete(boyMapping, event.Source.UserID)
-					
 				} else if message.Text == "*尋找下一位聊天對象中..." {
 
 					if girlMapping[event.Source.UserID] != "" && len(girlMapping[event.Source.UserID]) > 10 {
@@ -274,10 +267,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if boyMapping[boyId] == "wait" && tempBoyId != boyId {
 						    	boyMapping[boyId] = tempGirlId
 						    	girlMapping[tempGirlId] = boyId
-						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(tempGirlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(tempGirlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -289,10 +282,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if girlMapping[girlId] == "wait" && girlId != tempGirlId {
 						    	girlMapping[girlId] = tempBoyId
 						    	boyMapping[tempBoyId] = girlId
-						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(tempBoyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(tempBoyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -313,10 +306,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if boyMapping[boyId] == "wait" && tempBoyId != boyId {
 						    	boyMapping[boyId] = tempGirlId
 						    	girlMapping[tempGirlId] = boyId
-						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(tempGirlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(tempGirlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -328,10 +321,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    if girlMapping[girlId] == "wait" && girlId != tempGirlId {
 						    	girlMapping[girlId] = tempBoyId
 						    	boyMapping[tempBoyId] = girlId
-						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
-								if _, err := bot.PushMessage(tempBoyId, linebot.NewTextMessage("*配對成功，請開始聊天。")).Do(); err != nil {
+								if _, err := bot.PushMessage(tempBoyId, linebot.NewTextMessage("*配對成功，請開始聊天。\n輸入 \"選單\" 可以離開或換下一位。")).Do(); err != nil {
 								log.Print(err)
 								}
 								break
@@ -342,7 +335,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 							log.Print(err)
 						}
 					}
-					
 				} else if boyMapping[event.Source.UserID] != "" && len(boyMapping[event.Source.UserID]) > 10 {
 
 					if _, err := bot.PushMessage(boyMapping[event.Source.UserID], linebot.NewTextMessage(message.Text)).Do(); err != nil {
