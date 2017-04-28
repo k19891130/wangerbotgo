@@ -68,12 +68,12 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				} else if message.Text == "開始聊天" {
 
-					if boyMapping[event.Source.UserID] == "wait" {
+					if boyMapping[event.Source.UserID] != "" {
 
 						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在男生的等待序列中。")).Do(); err != nil {
 						log.Print(err)
 						}
-					} else if girlMapping[event.Source.UserID] == "wait" {
+					} else if girlMapping[event.Source.UserID] != "" {
 
 						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在女生的等待序列中。")).Do(); err != nil {
 						log.Print(err)
@@ -115,43 +115,66 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 				} else if message.Text == "*我是男生，開始尋找配對中..." {
-					
-					boyMapping[event.Source.UserID] = "wait"
 
-					for girlId := range girlMapping {
-					    
-					    if girlMapping[girlId] == "wait" {
-					    	girlMapping[girlId] = event.Source.UserID
-					    	boyMapping[event.Source.UserID] = girlId
-					    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
-							log.Print(err)
-							}
-							if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
-							log.Print(err)
-							}
-							break
-					    }
+					if boyMapping[event.Source.UserID] != "" {
+
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在男生的等待序列中。")).Do(); err != nil {
+						log.Print(err)
+						}
+					} else if girlMapping[event.Source.UserID] != "" {
+
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在女生的等待序列中。")).Do(); err != nil {
+						log.Print(err)
+						}
+					} else {
+						boyMapping[event.Source.UserID] = "wait"
+
+						for girlId := range girlMapping {
+						    
+						    if girlMapping[girlId] == "wait" {
+						    	girlMapping[girlId] = event.Source.UserID
+						    	boyMapping[event.Source.UserID] = girlId
+						    	if _, err := bot.PushMessage(girlId, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
+								log.Print(err)
+								}
+								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
+								log.Print(err)
+								}
+								break
+						    }
+						}
 					}
 
 				} else if message.Text == "*我是女生，開始尋找配對中..." {
 
-					girlMapping[event.Source.UserID] = "wait"
+					if boyMapping[event.Source.UserID] != "" {
 
-					for boyId := range boyMapping {
-					    
-					    if boyMapping[boyId] == "wait" {
-					    	boyMapping[boyId] = event.Source.UserID
-					    	girlMapping[event.Source.UserID] = boyId
-					    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
-							log.Print(err)
-							}
-							if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
-							log.Print(err)
-							}
-							break
-					    }
-					}
-					
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在男生的等待序列中。")).Do(); err != nil {
+						log.Print(err)
+						}
+					} else if girlMapping[event.Source.UserID] != "" {
+
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你已在女生的等待序列中。")).Do(); err != nil {
+						log.Print(err)
+						}
+					} else {
+						girlMapping[event.Source.UserID] = "wait"
+
+						for boyId := range boyMapping {
+						    
+						    if boyMapping[boyId] == "wait" {
+						    	boyMapping[boyId] = event.Source.UserID
+						    	girlMapping[event.Source.UserID] = boyId
+						    	if _, err := bot.PushMessage(boyId, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
+								log.Print(err)
+								}
+								if _, err := bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("配對成功，請開始聊天。")).Do(); err != nil {
+								log.Print(err)
+								}
+								break
+						    }
+						}
+					}					
 				} else if message.Text == "*已停止隨機聊天功能。" {
 
 					if girlMapping[event.Source.UserID] != "" && len(girlMapping[event.Source.UserID]) > 10 {
@@ -309,6 +332,16 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				} else if boyMapping[event.Source.UserID] == "wait" {
 
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尚未配對成功，請稍候。")).Do(); err != nil {
+						log.Print(err)
+					}
+				} else if girlMapping[event.Source.UserID] == "" {
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尚未開啟聊天功能，請輸入\"開始聊天\"。")).Do(); err != nil {
+						log.Print(err)
+					}
+				} else if boyMapping[event.Source.UserID] == "" {
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("尚未開啟聊天功能，請輸入\"開始聊天\"。")).Do(); err != nil {
 						log.Print(err)
 					}
 				}
