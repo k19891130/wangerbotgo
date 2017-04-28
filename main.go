@@ -310,7 +310,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						    }
 						}
 					} else {
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("*您已在等待序列中。", template)).Do(); err != nil {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("*您已在等待序列中。")).Do(); err != nil {
 							log.Print(err)
 						}
 					}
@@ -349,7 +349,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				
 			}
 		} else {
-			if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTemplateMessage("*目前只開放純文字聊天", template)).Do(); err != nil {
+			if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("*抱歉，目前只開放純文字聊天。")).Do(); err != nil {
 				log.Print(err)
 			}
 		}
