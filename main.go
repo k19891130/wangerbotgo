@@ -70,7 +70,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					for girlId := range girlMapping {
 						res, err := bot.GetProfile(girlId).Do();
 						if err != nil {
-						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 女\n" + "名字 : " + res.DisplayName + "\n照片 : " + res.PicutureUrl + "\nID : " + res.UserId + "\n個人狀態 : " + res.StatusMessage)).Do(); err != nil {
+						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 女\n" + "名字 : " + res.DisplayName + "\n照片 : " + res.PictureUrl + "\nID : " + res.UserID + "\n個人狀態 : " + res.StatusMessage)).Do(); err != nil {
 							log.Print(err)
 							}
 						}
@@ -79,7 +79,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					for boyId := range boyMapping {
 						res, err := bot.GetProfile(boyId).Do();
 						if err != nil {
-						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 男\n" + "名字 : " + res.DisplayName + "\n照片 : " + res.PicutureUrl + "\nID : " + res.UserId + "\n個人狀態 : " + res.StatusMessage)).Do(); err != nil {
+						    if _, err = bot.PushMessage(event.Source.UserID, linebot.NewTextMessage("性別 : 男\n" + "名字 : " + res.DisplayName + "\n照片 : " + res.PictureUrl + "\nID : " + res.UserID + "\n個人狀態 : " + res.StatusMessage)).Do(); err != nil {
 							log.Print(err)
 							}
 						}
